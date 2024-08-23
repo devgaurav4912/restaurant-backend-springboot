@@ -59,6 +59,7 @@ public class CategoryServiceImpl implements CategoryMasterService {
         Map<String, Object> uploadResult =cloudinaryImageService.upload(file);
         String imageUrl = (String) uploadResult.get("url");
         category.setCategoryImage(imageUrl);
+
         return categoryRepository.save(category);
     }
 
@@ -129,5 +130,15 @@ public class CategoryServiceImpl implements CategoryMasterService {
     @Override
     public void deleteById(Long id) {
         categoryRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existsByName(String categoryName) {
+        return categoryRepository.existsByCategoryName(categoryName);
+    }
+
+    @Override
+    public CategoryMaster findByCategoryName(String categoryName) {
+      return categoryRepository.findByCategoryName(categoryName);
     }
 }

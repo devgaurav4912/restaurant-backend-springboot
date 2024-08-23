@@ -14,4 +14,6 @@ public interface ProductRepository extends JpaRepository<ProductMaster,Long> {
 
     @Query("SELECT p FROM ProductMaster p WHERE p.categoryMaster.categoryName = :categoryName")
     List<ProductMaster> findByCategoryName(@Param("categoryName") String categoryName);
+
+    boolean existsByProductName(String productName);
 }

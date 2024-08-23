@@ -1,6 +1,7 @@
 package com.restaurant_backend.restaurant_backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,7 +24,8 @@ public class CartMaster {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cartId;
+    @Column(name = "cart_id")
+    private Long cart_id;
 
     @Column(name = "product_name")
     private  String productName;
@@ -57,13 +60,24 @@ public class CartMaster {
     @Column(name = "created_on")
     private LocalDate createdOn;
 
-    @ManyToMany
+    @Column(name="customer_name")
+    private String customerName;
+
+    @Column(name="payment-type")
+    private String paymentType;
+
+//    @OneToMany(mappedBy = "carts",cascade = CascadeType.MERGE)
+//    private List<ProductMaster> products; ///
+
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "cart_product",
-            joinColumns = @JoinColumn(name = "cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "cart_id")
     )
-    private Set<ProductMaster> products =new HashSet<>();
+    private Set<ProductMaster> products = new HashSet<>();
+
+
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

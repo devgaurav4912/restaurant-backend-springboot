@@ -10,4 +10,9 @@ public interface CategoryRepository extends JpaRepository<CategoryMaster,Long> {
     @Query("SELECT c FROM CategoryMaster c WHERE c.categoryName = :categoryName")
     CategoryMaster findCategoryNameByCategoryName(@Param("categoryName") String categoryName);
 
+    boolean existsByCategoryName(String categoryName);
+
+    CategoryMaster findByCategoryName(String categoryName);
+
+
 }

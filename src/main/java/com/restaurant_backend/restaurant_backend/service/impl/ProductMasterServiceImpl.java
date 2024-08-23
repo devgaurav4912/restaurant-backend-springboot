@@ -74,36 +74,96 @@ public class ProductMasterServiceImpl implements ProductMasterService {
     }
 
     @Override
-    public ProductMaster update(ProductMaster product, String categoryName, MultipartFile file) {
+//    public ProductMaster update(Long productId ,ProductMaster product, MultipartFile file, String categoryName) {
+//        Transaction transaction = null;
+//        try  {
+//
+//            Session session = sessionFactory.openSession();
+//
+//            transaction = session.beginTransaction();
+//
+//            CategoryMaster category = categoryRepository.findCategoryNameByCategoryName(categoryName);
+//            product.setCategoryMaster(category);
+//
+//            if (product.getCreatedOn() == null) {
+//                // Setting the current time to the product
+//                product.setCreatedOn(LocalDate.now());
+//            }
+////            Map<String, Object> uploadResult = cloudinaryImageService.upload(file);
+////            String imageUrl = (String) uploadResult.get("url");
+////            // Setting the image URL to the product
+////            product.setProductImage(imageUrl);
+//
+//            if (file != null && !file.isEmpty()) {
+//                Map<String, Object> uploadResult = cloudinaryImageService.upload(file);
+//                String imageUrl = (String) uploadResult.get("url");
+//                product.setProductImage(imageUrl);
+//            }
+//
+//            session.update(product);
+//
+//            transaction.commit();
+//
+//        } catch (Exception e) {
+//
+//        }
+//
+//        return product;
+//    }
+
+
+    public ProductMaster update(Long productId, ProductMaster product, MultipartFile file, String categoryName) {
         Transaction transaction = null;
-        try {
-
-            Session session = sessionFactory.openSession();
-
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
 
-            CategoryMaster category = categoryRepository.findCategoryNameByCategoryName(categoryName);
-            product.setCategoryMaster(category);
-
-            if (product.getCreatedOn() == null) {
-                // Setting the current time to the product
-                product.setCreatedOn(LocalDate.now());
+            // Fetch the existing product from the database
+            ProductMaster existingProduct = session.get(ProductMaster.class, productId);
+            if (existingProduct == null) {
+                throw new IllegalArgumentException("Product with ID " + productId + " not found.");
             }
-            Map<String, Object> uploadResult = cloudinaryImageService.upload(file);
-            String imageUrl = (String) uploadResult.get("url");
-            // Setting the image URL to the product
-            product.setProductImage(imageUrl);
 
-            session.update(product);
+            // Find the category by name
+            CategoryMaster category = categoryRepository.findCategoryNameByCategoryName(categoryName);
+            if (category != null) {
+                existingProduct.setCategoryMaster(category);
+            } else {
+                throw new IllegalArgumentException("Category with name " + categoryName + " not found.");
+            }
+
+            // Set the createdOn date if it's null
+            if (existingProduct.getCreatedOn() == null) {
+                existingProduct.setCreatedOn(LocalDate.now());
+            }
+
+            // Handle file upload if a file is provided
+            if (file != null && !file.isEmpty()) {
+                Map<String, Object> uploadResult = cloudinaryImageService.upload(file);
+                String imageUrl = (String) uploadResult.get("url");
+                existingProduct.setProductImage(imageUrl);
+            }
+
+            // Update other fields in existingProduct with values from product
+            existingProduct.setProductName(product.getProductName());
+           // existingProduct.setProductDescription(product.getProductDescription());
+            existingProduct.setProductQuantity(product.getProductQuantity());
+            existingProduct.setProductPrice(product.getProductPrice());
+            // Set other fields as needed
+
+            // Update the product
+            session.update(existingProduct);
 
             transaction.commit();
+            return existingProduct;
 
         } catch (Exception e) {
-
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw e; // or log the exception
         }
-
-        return product;
     }
+
 
     @Override
     public void deleteById(Long id) {
@@ -117,5 +177,10 @@ public class ProductMasterServiceImpl implements ProductMasterService {
     @Override
     public List<ProductMaster> getProductsByCategoryName(String categoryName) {
         return productRepository.findByCategoryName(categoryName);
+    }
+
+    @Override
+    public boolean existsByProductName(String productName) {
+       return productRepository.existsByProductName(productName);
     }
 }

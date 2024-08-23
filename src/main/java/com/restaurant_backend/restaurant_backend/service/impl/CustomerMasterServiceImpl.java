@@ -45,13 +45,19 @@ public class CustomerMasterServiceImpl implements CustomerMasterService {
     }
 
 
-    @Override
-    public CustomerMaster save(CustomerMaster customer) {
-        if (customer.getCreatedOn() == null) {
-            customer.setCreatedOn(LocalDate.now());
-        }
-        return customerRepository.save(customer);
+//    @Override
+//    public CustomerMaster save(CustomerMaster customer) {
+//        if (customer.getCreatedOn() == null) {
+//            customer.setCreatedOn(LocalDate.now());
+//        }
+//        return customerRepository.save(customer);
+//    }
+
+    public CustomerMaster save(CustomerMaster customerMaster) {
+
+        return customerRepository.save(customerMaster);
     }
+
 
     @Override
     public CustomerMaster update(CustomerMaster customerMaster)  {

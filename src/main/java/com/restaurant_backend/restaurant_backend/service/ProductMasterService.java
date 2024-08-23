@@ -14,11 +14,13 @@ public interface ProductMasterService {
 
     ProductMaster save(ProductMaster product ,String categoryName , MultipartFile file) throws IOException;
 
-    ProductMaster update(ProductMaster product,String CategoryName , MultipartFile file) throws IOException;
+    ProductMaster update(Long productId ,ProductMaster product, MultipartFile file, String categoryName) throws IOException;
 
     void deleteById(Long id);
 
     ProductMaster findByProductName(String productName);
     List<ProductMaster> getProductsByCategoryName(String categoryName);
+
+    boolean existsByProductName(String productName);
 
 }

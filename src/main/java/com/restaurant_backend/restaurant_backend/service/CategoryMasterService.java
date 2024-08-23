@@ -15,4 +15,8 @@ public interface CategoryMasterService {
     CategoryMaster update(CategoryMaster category,MultipartFile file);
 
     void deleteById(Long id);
+
+    public boolean existsByName(String name);
+
+    CategoryMaster findByCategoryName(String categoryName);
 }
