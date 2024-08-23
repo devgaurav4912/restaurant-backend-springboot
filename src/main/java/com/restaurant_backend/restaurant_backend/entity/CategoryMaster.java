@@ -37,9 +37,10 @@ public class CategoryMaster {
 
 
 //    @OneToMany(mappedBy = "categoryMaster")
-//    private List<ProductMaster> productList ;
+//    private List<ProductMaster> productList;
 
-    @OneToMany(mappedBy = "categoryMaster" , cascade =  CascadeType.ALL)
+    @OneToMany(mappedBy = "categoryMaster" ,
+            cascade =  CascadeType.ALL)
     private List<ProductMaster> productsList;
 
 }

@@ -22,7 +22,7 @@ public class CustomerMaster {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customer_id;
 
-    @Column(name = "customer_name")
+    @Column(name = "customer_name",unique = true)
     private String customerFullName;
 
     @Column(name = "customer_mobile")

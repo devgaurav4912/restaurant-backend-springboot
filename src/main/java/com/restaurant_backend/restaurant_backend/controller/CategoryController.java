@@ -23,12 +23,17 @@ public class CategoryController {
     ResponseEntity<CategoryMaster> saveCategory(@RequestPart("category") CategoryMaster category,
                                                  @RequestParam("file") MultipartFile file) {
 
+        // Check if the category name already exists
+        if (categoryMasterService.existsByName(category.getCategoryName())) {
+            // Return 409 Conflict status if the category name already exists
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
         System.out.println("Received Category: " + category);
         System.out.println("Received File: " + file.getOriginalFilename());
 
         CategoryMaster categoryMaster = categoryMasterService.save(category,file);
 
-        return ResponseEntity.ok(categoryMaster);
+        return ResponseEntity.ok(null);
 
     }
 
@@ -44,15 +49,21 @@ public class CategoryController {
     }
 
     @PutMapping("/updateCategory/{id}")
-    public CategoryMaster updateCategory(@PathVariable("id") Long id,
+    public ResponseEntity<CategoryMaster> updateCategory(@PathVariable("id") Long id,
                                          @RequestPart("category") CategoryMaster category,
                                          @RequestParam(value = "file",required = false) MultipartFile file) {
+
+//        if (categoryMasterService.existsByName(category.getCategoryName())) {
+//            // Return 409 Conflict status if the category name already exists
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+//        }
         category.setCategoryId(id);
 //        if (file != null && !file.isEmpty()) {
 //            return categoryMasterService.update(category, file);
 //        } else {
-            return categoryMasterService.update(category, file);
+             categoryMasterService.update(category, file);
 
+        return ResponseEntity.ok(null);
 
     }
 

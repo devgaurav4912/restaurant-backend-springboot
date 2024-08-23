@@ -2,6 +2,7 @@ package com.restaurant_backend.restaurant_backend.controller;
 
 import com.restaurant_backend.restaurant_backend.entity.CartMaster;
 import com.restaurant_backend.restaurant_backend.entity.CustomerMaster;
+import com.restaurant_backend.restaurant_backend.entity.ProductMaster;
 import com.restaurant_backend.restaurant_backend.service.CartMasterService;
 import com.restaurant_backend.restaurant_backend.service.CustomerMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class CartController {
 
         cartMaster.setCustomer(customer);
         cartMaster.setOrderNumber(UUID.randomUUID().toString());
+
+
+
         CartMaster cartMaster1 = cartMasterService.save(cartMaster);
         return ResponseEntity.ok(cartMaster1);
 
