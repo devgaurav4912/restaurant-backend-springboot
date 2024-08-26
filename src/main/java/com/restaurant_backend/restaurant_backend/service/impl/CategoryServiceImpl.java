@@ -106,6 +106,10 @@ public class CategoryServiceImpl implements CategoryMasterService {
                 existingCategory.setCategoryName(newCategory.getCategoryName());
             }
 
+            if(newCategory.getStatus() !=null){
+                existingCategory.setStatus(newCategory.getStatus());
+            }
+
             // Update file if provided
             if (file != null && !file.isEmpty()) {
                 Map<String, Object> uploadResult = cloudinaryImageService.upload(file);
