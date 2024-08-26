@@ -1,5 +1,6 @@
 package com.restaurant_backend.restaurant_backend.repository;
 
+import com.restaurant_backend.restaurant_backend.entity.CategoryMaster;
 import com.restaurant_backend.restaurant_backend.entity.ProductMaster;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +17,7 @@ public interface ProductRepository extends JpaRepository<ProductMaster,Long> {
     List<ProductMaster> findByCategoryName(@Param("categoryName") String categoryName);
 
     boolean existsByProductName(String productName);
+
+    long countByCategoryMaster(CategoryMaster categoryMaster);
+
 }

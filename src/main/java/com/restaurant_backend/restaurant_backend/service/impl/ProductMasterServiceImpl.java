@@ -1,5 +1,6 @@
 package com.restaurant_backend.restaurant_backend.service.impl;
 
+import com.restaurant_backend.restaurant_backend.customexception.ResourceNotFoundException;
 import com.restaurant_backend.restaurant_backend.entity.CategoryMaster;
 import com.restaurant_backend.restaurant_backend.entity.ProductMaster;
 import com.restaurant_backend.restaurant_backend.repository.CategoryRepository;
@@ -60,7 +61,9 @@ public class ProductMasterServiceImpl implements ProductMasterService {
     public ProductMaster save(ProductMaster product, String categoryName, MultipartFile file) throws IOException {
 
         CategoryMaster category = categoryRepository.findCategoryNameByCategoryName(categoryName);
+
         product.setCategoryMaster(category);
+
 
         if (product.getCreatedOn() == null) {
             product.setCreatedOn(LocalDate.now());
@@ -70,8 +73,47 @@ public class ProductMasterServiceImpl implements ProductMasterService {
         // Setting the image URL to the product
         product.setProductImage(imageUrl);
 
-        return productRepository.save(product);
+
+        ProductMaster savedProduct = productRepository.save(product);
+
+        updateCategoryStatus(category);
+
+
+        return savedProduct;
     }
+
+    public void deleteById(Long productId) {
+        // Find the product by its ID
+        ProductMaster product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        // Get the associated category
+        CategoryMaster category = product.getCategoryMaster();
+
+        // Delete the product
+        productRepository.delete(product);
+
+        // Update the category status based on the new product count
+        updateCategoryStatus(category);
+    }
+
+
+    // Helper method to update the category status
+    private void updateCategoryStatus(CategoryMaster category) {
+        // Count the number of products associated with the category
+        long productCount = productRepository.countByCategoryMaster(category);
+
+        // Set category status based on product count
+        if (productCount > 0) {
+            category.setStatus("Active");
+        } else {
+            category.setStatus("Inactive");
+        }
+
+        // Save the updated category status
+        categoryRepository.save(category);
+    }
+
+
 
     @Override
 //    public ProductMaster update(Long productId ,ProductMaster product, MultipartFile file, String categoryName) {
@@ -165,10 +207,13 @@ public class ProductMasterServiceImpl implements ProductMasterService {
     }
 
 
-    @Override
-    public void deleteById(Long id) {
-        productRepository.deleteById(id);
-    }
+//    @Override
+//    public void deleteById(Long id) {
+//        productRepository.deleteById(id);
+//
+//    }
+
+
 
     public ProductMaster findByProductName(String productName) {
         return productRepository.findByProductName(productName);

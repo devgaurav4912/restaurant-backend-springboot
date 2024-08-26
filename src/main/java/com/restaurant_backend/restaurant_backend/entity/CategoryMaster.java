@@ -31,6 +31,9 @@ public class CategoryMaster {
     @Column(name = "category_image")
     private String categoryImage;
 
+    @Column(name = "status")
+    private String status;
+
     @JsonIgnore
     @Column(name = "created_on")
     private LocalDate createdOn;
