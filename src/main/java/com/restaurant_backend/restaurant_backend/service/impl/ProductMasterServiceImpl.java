@@ -37,6 +37,7 @@ public class ProductMasterServiceImpl implements ProductMasterService {
 
     @Override
     public List<ProductMaster> findAll() {
+
         return productRepository.findAll();
     }
 
@@ -115,7 +116,7 @@ public class ProductMasterServiceImpl implements ProductMasterService {
 
 
 
-    @Override
+   // @Override
 //    public ProductMaster update(Long productId ,ProductMaster product, MultipartFile file, String categoryName) {
 //        Transaction transaction = null;
 //        try  {
@@ -155,6 +156,7 @@ public class ProductMasterServiceImpl implements ProductMasterService {
 
 
     public ProductMaster update(Long productId, ProductMaster product, MultipartFile file, String categoryName) {
+
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -197,6 +199,7 @@ public class ProductMasterServiceImpl implements ProductMasterService {
 
             transaction.commit();
             return existingProduct;
+
 
         } catch (Exception e) {
             if (transaction != null) {

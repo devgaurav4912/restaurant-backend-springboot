@@ -48,11 +48,11 @@ public class CustomerController {
             customerMaster.setCreatedOn(LocalDate.now());
         }
 
-        Optional<CustomerMaster> existingCustomer = customerRepository.findByCustomerFullName(customerMaster.getCustomerFullName());
+        Optional<CustomerMaster> existingCustomer = customerRepository.findByCustomerMobileNumber(customerMaster.getCustomerMobileNumber());
 
         if (existingCustomer.isPresent()) {
             // Send a custom message with the status code 409 (Conflict)
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Customer with the same name already exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Customer with this mobile number already exists");
         } else {
             CustomerMaster customerMaster1 = customerMasterService.save(customerMaster);
             // Send the saved customer object back with a 200 OK status

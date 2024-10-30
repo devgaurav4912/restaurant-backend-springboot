@@ -16,10 +16,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "productmaster")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ProductMaster {
 
     @Id
@@ -71,4 +67,105 @@ public class ProductMaster {
         return categoryMaster != null ? categoryMaster.getCategoryName() : null;
     }
 
+    public ProductMaster(){
+
+    }
+    public ProductMaster(Long productId, String productName, double productPrice, String productImage, LocalDate createdOn, double productQuantity, double productTotal, Set<CartMaster> carts, CategoryMaster categoryMaster) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productImage = productImage;
+        this.createdOn = createdOn;
+        this.productQuantity = productQuantity;
+        this.productTotal = productTotal;
+        this.carts = carts;
+        this.categoryMaster = categoryMaster;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public double getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
+    }
+
+    public LocalDate getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDate createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public double getProductQuantity() {
+        return productQuantity;
+    }
+
+    public void setProductQuantity(double productQuantity) {
+        this.productQuantity = productQuantity;
+    }
+
+    public double getProductTotal() {
+        return productTotal;
+    }
+
+    public void setProductTotal(double productTotal) {
+        this.productTotal = productTotal;
+    }
+
+    public Set<CartMaster> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(Set<CartMaster> carts) {
+        this.carts = carts;
+    }
+
+    public CategoryMaster getCategoryMaster() {
+        return categoryMaster;
+    }
+
+    public void setCategoryMaster(CategoryMaster categoryMaster) {
+        this.categoryMaster = categoryMaster;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductMaster{" +
+                "productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", productPrice=" + productPrice +
+                ", productImage='" + productImage + '\'' +
+                ", createdOn=" + createdOn +
+                ", productQuantity=" + productQuantity +
+                ", productTotal=" + productTotal +
+                ", carts=" + carts +
+                ", categoryMaster=" + categoryMaster +
+                '}';
+    }
 }

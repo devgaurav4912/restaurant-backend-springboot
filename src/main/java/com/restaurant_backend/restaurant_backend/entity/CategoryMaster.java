@@ -14,10 +14,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "categorymaster")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class CategoryMaster {
 
     @Id
@@ -46,4 +42,75 @@ public class CategoryMaster {
             cascade =  CascadeType.ALL)
     private List<ProductMaster> productsList;
 
+    public CategoryMaster(){
+        super();
+    }
+    public CategoryMaster(Long categoryId, String categoryName, String categoryImage, String status, LocalDate createdOn, List<ProductMaster> productsList) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.categoryImage = categoryImage;
+        this.status = status;
+        this.createdOn = createdOn;
+        this.productsList = productsList;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getCategoryImage() {
+        return categoryImage;
+    }
+
+    public void setCategoryImage(String categoryImage) {
+        this.categoryImage = categoryImage;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDate getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDate createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public List<ProductMaster> getProductsList() {
+        return productsList;
+    }
+
+    public void setProductsList(List<ProductMaster> productsList) {
+        this.productsList = productsList;
+    }
+
+    @Override
+    public String toString() {
+        return "CategoryMaster{" +
+                "categoryId=" + categoryId +
+                ", categoryName='" + categoryName + '\'' +
+                ", categoryImage='" + categoryImage + '\'' +
+                ", status='" + status + '\'' +
+                ", createdOn=" + createdOn +
+                ", productsList=" + productsList +
+                '}';
+    }
 }

@@ -71,6 +71,13 @@
 			<version>1.36.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.razorpay/razorpay-java -->
+		<dependency>
+			<groupId>com.razorpay</groupId>
+			<artifactId>razorpay-java</artifactId>
+			<version>1.4.6</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -85,6 +92,11 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<!-- docker image -->
+					<image>
+						<name>gaurav4912/posbs-${project.artifactId}:${project.version}</name>
+					</image>
+					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
 				</configuration>
 			</plugin>
 		</plugins>

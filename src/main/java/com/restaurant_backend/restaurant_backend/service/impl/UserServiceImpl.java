@@ -41,6 +41,8 @@ public class UserServiceImpl implements UserMasterService {
         return user;
     }
 
+
+
     @Override
     public UserMaster save(UserMaster user) {
         return userMasterRepository.save(user);

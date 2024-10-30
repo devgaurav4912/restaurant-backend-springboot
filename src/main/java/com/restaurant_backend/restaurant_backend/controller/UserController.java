@@ -26,12 +26,8 @@ public class UserController {
                 userCheck.getUserName().equals(loginRequest.getUserName()) &&
                 userCheck.getPassword().equals(loginRequest.getPassword())) {
             return ResponseEntity.ok("Login successful");
-
         } else if (userCheck == null) {
-
             return ResponseEntity.status(404).body("User not found");
-
-
         } else {
 
             return ResponseEntity.status(401).body("Invalid credentials");
